@@ -63,3 +63,4 @@ E:\vscode stuff\sand gaem\bin\Debug\net8.0\runtimes\win-x64\native\glfw3.dll
 E:\vscode stuff\sand gaem\bin\Debug\net8.0\runtimes\win-x86\native\glfw3.dll
 E:\vscode stuff\sand gaem\obj\Debug\net8.0\sand gaem.csproj.AssemblyReference.cache
 E:\vscode stuff\sand gaem\obj\Debug\net8.0\sand gaem.csproj.Up2Date
+E:\vscode stuff\sand gaem\obj\Debug\net8.0\sand gaem.sourcelink.json

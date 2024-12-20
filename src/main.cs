@@ -1,4 +1,5 @@
 ﻿using SimulationFramework;
+using SimulationFramework.Drawing;
 
 partial class main {
     static void Main() {
@@ -8,5 +9,9 @@ partial class main {
 
     static void init() {
         Window.Title = "balls";
+
+        tex = Graphics.CreateTexture(320,180);
+
+        Simulation.SetFixedResolution(320,180,Color.Black);
     }
 }
