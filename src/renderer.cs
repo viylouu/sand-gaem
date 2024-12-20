@@ -40,6 +40,8 @@ partial class main {
         sel_cel %= 2;
 
         c.DrawText(sel_cel_type?.Name ?? "air", 16, 318,2, Alignment.TopRight);
+
+        c.DrawText($"{math.round(1/Time.DeltaTime)} fps", 16, 2,2, Alignment.TopLeft);
     }
 
     static void update() {
