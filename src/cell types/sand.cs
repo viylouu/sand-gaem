@@ -2,7 +2,11 @@ using SimulationFramework;
 
 public class sand : cell {
     public sand() {
-        col = Color.Yellow;
+        col = Color.Lerp(
+            Color.Blue,
+            Color.Red,
+            (float)main.r.NextDouble()
+        );
     }
 
     public override void update_cell(int x, int y) {
