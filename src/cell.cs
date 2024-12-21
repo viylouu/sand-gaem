@@ -10,6 +10,11 @@ public abstract class cell {
     public static bool within_y_top(float y) => y < main.cells.GetLength(1)-1;
     public static bool within_y_bottom(float y) => y > 0;
 
+    public static bool within_x_left(float x, int amt) => x > amt;
+    public static bool within_x_right(float x, int amt) => x < main.cells.GetLength(0)-amt;
+    public static bool within_y_top(float y, int amt) => y < main.cells.GetLength(1)-amt;
+    public static bool within_y_bottom(float y, int amt) => y > amt;
+
     public static void swap(int x1, int y1, int x2, int y2) {
         if(main.cells_next[x1,y1] == null)
             return;
@@ -33,8 +38,15 @@ public abstract class cell {
 
         swap(x1,y1,x2,y2);
 
-        main.tex[x1,y1] = main.cells_next[x1,y1].col;
-        main.tex[x2,y2] = main.cells_next[x2,y2].col;
+        if(main.cells_next[x1,y1] == null)
+            main.tex[x1,y1] = Color.Transparent;
+        else
+            main.tex[x1,y1] = main.cells_next[x1,y1].col;
+
+        if(main.cells_next[x2,y2] == null)
+            main.tex[x2,y2] = Color.Transparent;
+        else
+            main.tex[x2,y2] = main.cells_next[x2,y2].col;
     }
 
     public static void swap_with_null_with_texture_update(int x1, int y1, int x2, int y2) {

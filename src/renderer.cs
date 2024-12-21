@@ -1,5 +1,4 @@
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using SimulationFramework;
 using SimulationFramework.Drawing;
 using SimulationFramework.Input;
@@ -17,6 +16,9 @@ partial class main {
 
     static int place_radius = 4;
 
+    //static float fps = 1f/30;
+    //static float timer;
+
     static void rend(ICanvas c) {
         c.Clear(Color.Black);
 
@@ -24,7 +26,12 @@ partial class main {
         c.DrawTexture(tex, 0,0, 640,360, Alignment.BottomLeft);
         c.ResetState();
 
-        update();
+        //timer += Time.DeltaTime;
+
+        //if(timer >= fps) {
+        //    timer = 0;
+            update();
+        //}
 
         if(Mouse.IsButtonDown(MouseButton.Left)) {
             for(int x = -place_radius; x <= place_radius; x++)

@@ -15,7 +15,7 @@ public class scaffold : cell {
                 return;
 
         if(within_y_bottom(y))
-            if(main.cells[x,y-1] == null)
-                swap_with_null_with_texture_update(x,y, x,y-1);
+            if(main.cells[x,y-1] == null || main.cells[x,y-1] is water)
+                swap_with_texture_update(x,y, x,y-1);
     }
 }

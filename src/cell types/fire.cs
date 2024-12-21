@@ -1,9 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using SimulationFramework;
 using thrustr.utils;
 
 public class fire : cell {
     public int ticks;
+
+    public Type[] burnables = {
+        typeof(sand)
+    };
 
     public fire() {
         col = Color.Lerp(
@@ -23,29 +26,68 @@ public class fire : cell {
 
         //spreading
 
-        int dir = main.r.Next(0,4);
+        int dir = 0;
 
-        if(main.r.Next(0,2) == 0) {
-            if(dir == 0)
-                if(within_x_left(x))
-                    if(main.cells[x-1,y] != null && main.cells[x-1,y] is not fire)
-                        set_cell_with_texture_update(x-1,y, new fire());
+        for(int i = 1; i <= main.r.Next(1,5); i++)
+            if(main.r.Next(0,i*i+1) == 0) {
+                dir = main.r.Next(0,4);
 
-            if(dir == 1)
-                if(within_x_right(x))
-                    if(main.cells[x+1,y] != null && main.cells[x+1,y] is not fire)
-                        set_cell_with_texture_update(x+1,y, new fire());
+                if(dir == 0)
+                    if(within_x_left(x,i))
+                        if(main.cells[x-i,y] != null) {
+                            bool burnable = false;
+                            for(int j = 0; j < burnables.Length; j++)
+                                if(main.cells[x-i,y].GetType() == burnables[j]) {
+                                    burnable = true;
+                                    break;
+                                }
 
-            if(dir == 2)
-                if(within_y_bottom(y))
-                    if(main.cells[x,y-1] != null && main.cells[x,y-1] is not fire)
-                        set_cell_with_texture_update(x,y-1, new fire());
+                            if(burnable)
+                                set_cell_with_texture_update(x-i,y, new fire());
+                        }
 
-            if(dir == 3)
-                if(within_y_top(y))
-                    if(main.cells[x,y+1] != null && main.cells[x,y+1] is not fire)
-                        set_cell_with_texture_update(x,y+1, new fire());
-        }
+                if(dir == 1)
+                    if(within_x_right(x,i))
+                        if(main.cells[x+i,y] != null) {
+                            bool burnable = false;
+                            for(int j = 0; j < burnables.Length; j++)
+                                if(main.cells[x+i,y].GetType() == burnables[j]) {
+                                    burnable = true;
+                                    break;
+                                }
+
+                            if(burnable)
+                                set_cell_with_texture_update(x+i,y, new fire());
+                        }
+
+                if(dir == 2)
+                    if(within_y_bottom(y,i))
+                        if(main.cells[x,y-i] != null) {
+                            bool burnable = false;
+                            for(int j = 0; j < burnables.Length; j++)
+                                if(main.cells[x,y-i].GetType() == burnables[j]) {
+                                    burnable = true;
+                                    break;
+                                }
+
+                            if(burnable)
+                                set_cell_with_texture_update(x,y-i, new fire());
+                        }
+
+                if(dir == 3)
+                    if(within_y_top(y,i))
+                        if(main.cells[x,y+i] != null) {
+                            bool burnable = false;
+                            for(int j = 0; j < burnables.Length; j++)
+                                if(main.cells[x,y+i].GetType() == burnables[j]) {
+                                    burnable = true;
+                                    break;
+                                }
+
+                            if(burnable)
+                                set_cell_with_texture_update(x,y+i, new fire());
+                        }
+            }
 
         //remove after time
 

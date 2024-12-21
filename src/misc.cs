@@ -62,11 +62,13 @@ partial class main {
                 sel_cel_type = typeof(fire); break;
             case 4:
                 sel_cel_type = typeof(scaffold); break;
+            case 5:
+                sel_cel_type = typeof(water); break;
         }
 
         sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
 
-        if(sel_cel > 4)
-            sel_cel = 4;
+        if(sel_cel > 5)
+            sel_cel = 5;
     }
 }
