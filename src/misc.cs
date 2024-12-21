@@ -1,4 +1,5 @@
 using SimulationFramework;
+using SimulationFramework.Input;
 
 using thrustr.utils;
 
@@ -21,7 +22,7 @@ partial class main {
     }
 
     static void place_cell_screen_space(Type cell_type, int x, int y) {
-        y = 180-y;
+        y = 360-y;
 
         place_cell(cell_type, x, y);
     }
@@ -34,5 +35,33 @@ partial class main {
         y *= cells.GetLength(1);
 
         place_cell_screen_space(cell_type, x,y);
+    }
+
+    public static void set_cell(int x, int y, cell c) {
+        if (x < 0 || x >= cells.GetLength(0) || y < 0 || y >= cells.GetLength(1))
+            return;
+        
+        if(c == null) {
+            cells_next[x,y] = null;
+            tex[x,y] = Color.Transparent;
+        } else {
+            cells_next[x, y] = c;
+            tex[x, y] = c.col;
+        }
+    }
+
+    static void select_cell() {
+        switch(sel_cel) {
+            case 0:
+                sel_cel_type = null; break;
+            case 1:
+                sel_cel_type = typeof(sand); break;
+            case 2:
+                sel_cel_type = typeof(stone); break;
+            case 3:
+                sel_cel_type = typeof(fire); break;
+        }
+
+        sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
     }
 }

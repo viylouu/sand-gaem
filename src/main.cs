@@ -12,8 +12,8 @@ partial class main {
     static void init() {
         Window.Title = "balls";
 
-        tex = Graphics.CreateTexture(320,180);
+        tex = Graphics.CreateTexture(640,360);
 
-        Simulation.SetFixedResolution(320,180,Color.Black);
+        Simulation.SetFixedResolution(640,360,Color.Black);
     }
 }

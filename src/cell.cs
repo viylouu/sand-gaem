@@ -46,4 +46,15 @@ public abstract class cell {
         main.tex[x1,y1] = Color.Transparent;
         main.tex[x2,y2] = main.cells_next[x2,y2].col;
     }
+
+    public static void remove(int x, int y) => set_cell_with_texture_update(x, y, null);
+    public static void set_cell(int x, int y, cell c) => main.set_cell(x,y,c);
+    public static void set_cell_with_texture_update(int x, int y, cell c) {
+        set_cell(x,y,c);
+
+        if(c == null)
+            main.tex[x,y] = Color.Transparent;
+        else
+            main.tex[x,y] = main.cells_next[x,y].col;
+    }
 }
