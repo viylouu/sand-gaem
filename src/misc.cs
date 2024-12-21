@@ -60,8 +60,13 @@ partial class main {
                 sel_cel_type = typeof(stone); break;
             case 3:
                 sel_cel_type = typeof(fire); break;
+            case 4:
+                sel_cel_type = typeof(scaffold); break;
         }
 
         sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
+
+        if(sel_cel > 4)
+            sel_cel = 4;
     }
 }

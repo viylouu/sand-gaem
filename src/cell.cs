@@ -48,7 +48,7 @@ public abstract class cell {
     }
 
     public static void remove(int x, int y) => set_cell_with_texture_update(x, y, null);
-    public static void set_cell(int x, int y, cell c) => main.set_cell(x,y,c);
+    public static void set_cell(int x, int y, cell c) => main.cells_next[x,y] = c;
     public static void set_cell_with_texture_update(int x, int y, cell c) {
         set_cell(x,y,c);
 

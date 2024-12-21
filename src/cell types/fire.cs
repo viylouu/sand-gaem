@@ -23,21 +23,29 @@ public class fire : cell {
 
         //spreading
 
-        if(within_x_left(x))
-            if(main.cells[x-1,y] != null && main.cells[x-1,y] is not fire)
-                set_cell_with_texture_update(x-1,y, new fire());
+        int dir = main.r.Next(0,4);
 
-        if(within_x_right(x))
-            if(main.cells[x+1,y] != null && main.cells[x+1,y] is not fire)
-                set_cell_with_texture_update(x+1,y, new fire());
+        if(main.r.Next(0,2) == 0) {
+            if(dir == 0)
+                if(within_x_left(x))
+                    if(main.cells[x-1,y] != null && main.cells[x-1,y] is not fire)
+                        set_cell_with_texture_update(x-1,y, new fire());
 
-        if(within_y_bottom(y))
-            if(main.cells[x,y-1] != null && main.cells[x,y-1] is not fire)
-                set_cell_with_texture_update(x,y-1, new fire());
+            if(dir == 1)
+                if(within_x_right(x))
+                    if(main.cells[x+1,y] != null && main.cells[x+1,y] is not fire)
+                        set_cell_with_texture_update(x+1,y, new fire());
 
-        if(within_y_top(y))
-            if(main.cells[x,y+1] != null && main.cells[x,y+1] is not fire)
-                set_cell_with_texture_update(x,y+1, new fire());
+            if(dir == 2)
+                if(within_y_bottom(y))
+                    if(main.cells[x,y-1] != null && main.cells[x,y-1] is not fire)
+                        set_cell_with_texture_update(x,y-1, new fire());
+
+            if(dir == 3)
+                if(within_y_top(y))
+                    if(main.cells[x,y+1] != null && main.cells[x,y+1] is not fire)
+                        set_cell_with_texture_update(x,y+1, new fire());
+        }
 
         //remove after time
 
@@ -52,7 +60,7 @@ public class fire : cell {
 
         //go left/right
 
-        int dir = (int)math.round((float)main.r.NextDouble());
+        dir = (int)math.round((float)main.r.NextDouble());
 
         if(main.r.Next(0,5) == 0) {
             if(dir == 0) {
