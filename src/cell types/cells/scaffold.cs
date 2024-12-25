@@ -1,10 +1,10 @@
 using SimulationFramework;
 
-public class scaffold : cell {
+public class scaffold : solid {
     public scaffold() {
         col = Color.Lerp(
-            Color.Red,
-            Color.DarkRed,
+            Color.BurlyWood,
+            Color.BlanchedAlmond,
             (float)main.r.NextDouble()
         );
     }
@@ -15,7 +15,7 @@ public class scaffold : cell {
                 return;
 
         if(within_y_bottom(y))
-            if(main.cells[x,y-1] == null || main.cells[x,y-1] is water)
+            if(main.cells[x,y-1] == null || main.cells[x,y-1] is liquid)
                 swap_with_texture_update(x,y, x,y-1);
     }
 }

@@ -1,11 +1,12 @@
 using SimulationFramework;
 using thrustr.utils;
 
-public class fire : cell {
+public class fire : gas {
     public int ticks;
 
     public Type[] burnables = {
-        typeof(sand)
+        typeof(termite),
+        typeof(scaffold)
     };
 
     public fire() {
@@ -20,6 +21,38 @@ public class fire : cell {
 
     public override void update_cell(int x, int y) {
         ticks++;
+
+        if(within_x_left(x))
+            if(main.cells[x-1,y] != null)
+                if(main.cells[x-1,y] is liquid) 
+                    if((main.cells[x-1,y] as liquid).depletes_fire){
+                        remove(x,y);
+                        return;
+                    }
+
+        if(within_x_right(x))
+            if(main.cells[x+1,y] != null)
+                if(main.cells[x+1,y] is liquid)
+                    if((main.cells[x+1,y] as liquid).depletes_fire){
+                        remove(x,y);
+                        return;
+                    }
+
+        if(within_y_top(y))
+            if(main.cells[x,y+1] != null)
+                if(main.cells[x,y+1] is liquid)
+                    if((main.cells[x,y+1] as liquid).depletes_fire){
+                        remove(x,y);
+                        return;
+                    }
+
+        if(within_y_bottom(y))
+            if(main.cells[x,y-1] != null)
+                if(main.cells[x,y-1] is liquid)
+                    if((main.cells[x,y-1] as liquid).depletes_fire){
+                        remove(x,y);
+                        return;
+                    }
 
         if(main.r.Next(0, 10) == 0)
             return;

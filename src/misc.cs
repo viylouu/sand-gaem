@@ -21,10 +21,34 @@ partial class main {
         }
     }
 
+    static void place_cell_with_no_override(Type cell_type, int x, int y) {
+        if (x < 0 || x >= cells.GetLength(0) || y < 0 || y >= cells.GetLength(1))
+            return;
+        
+        if(cells[x,y] != null)
+            return;
+
+        if(cell_type == null) {
+            cells[x,y] = null;
+            tex[x,y] = Color.Transparent;
+        } else {
+            cell c = (cell)Activator.CreateInstance(cell_type);
+
+            cells[x, y] = c;
+            tex[x, y] = c.col;
+        }
+    }
+
     static void place_cell_screen_space(Type cell_type, int x, int y) {
         y = 360-y;
 
         place_cell(cell_type, x, y);
+    }
+
+    static void place_cell_with_no_override_screen_space(Type cell_type, int x, int y) {
+        y = 360-y;
+
+        place_cell_with_no_override(cell_type, x, y);
     }
 
     static void place_cell_screen_space_with_remap(Type cell_type, int x, int y) {
@@ -51,24 +75,22 @@ partial class main {
     }
 
     static void select_cell() {
-        switch(sel_cel) {
-            case 0:
-                sel_cel_type = null; break;
-            case 1:
-                sel_cel_type = typeof(sand); break;
-            case 2:
-                sel_cel_type = typeof(stone); break;
-            case 3:
-                sel_cel_type = typeof(fire); break;
-            case 4:
-                sel_cel_type = typeof(scaffold); break;
-            case 5:
-                sel_cel_type = typeof(water); break;
-        }
+        sel_cel_type = cell_types[sel_cel];
 
         sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
 
-        if(sel_cel > 5)
-            sel_cel = 5;
+        if(sel_cel > cell_types.Length-1)
+            sel_cel = (byte)(cell_types.Length-1);
     }
+
+    static Type[] cell_types = {
+        null,
+        typeof(sand),
+        typeof(stone),
+        typeof(fire),
+        typeof(scaffold),
+        typeof(water),
+        typeof(termite),
+        typeof(clearer)
+    };
 }

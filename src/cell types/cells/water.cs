@@ -1,13 +1,15 @@
 using SimulationFramework;
 using thrustr.utils;
 
-public class water : cell {
+public class water : liquid {
     public water() {
         col = Color.Lerp(
             Color.Blue,
             Color.DodgerBlue,
             (float)main.r.NextDouble()
         );
+
+        depletes_fire = true;
     }
 
     public override void update_cell(int x, int y) {

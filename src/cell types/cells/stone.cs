@@ -1,6 +1,6 @@
 using SimulationFramework;
 
-public class stone : cell {
+public class stone : solid {
     public stone() {
         col = Color.Lerp(
             Color.DimGray,
@@ -15,7 +15,7 @@ public class stone : cell {
                 return;
 
         if(within_y_bottom(y))
-            if(main.cells[x,y-1] == null || main.cells[x,y-1] is water)
+            if(main.cells[x,y-1] == null || main.cells[x,y-1] is liquid)
                 swap_with_texture_update(x,y, x,y-1);
     }
 }

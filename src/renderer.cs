@@ -16,8 +16,8 @@ partial class main {
 
     static int place_radius = 4;
 
-    //static float fps = 1f/30;
-    //static float timer;
+    static float fps = 1f/60;
+    static float timer;
 
     static void rend(ICanvas c) {
         c.Clear(Color.Black);
@@ -26,7 +26,7 @@ partial class main {
         c.DrawTexture(tex, 0,0, 640,360, Alignment.BottomLeft);
         c.ResetState();
 
-        //timer += Time.DeltaTime;
+        timer += Time.DeltaTime;
 
         //if(timer >= fps) {
         //    timer = 0;
@@ -36,8 +36,12 @@ partial class main {
         if(Mouse.IsButtonDown(MouseButton.Left)) {
             for(int x = -place_radius; x <= place_radius; x++)
                 for(int y = -place_radius; y <= place_radius; y++)
-                    if(math.sqrdist(Mouse.Position, Mouse.Position + new Vector2(x,y)) < place_radius*place_radius)
-                        place_cell_screen_space(sel_cel_type, Iround(Mouse.Position.X)+x, Iround(Mouse.Position.Y)+y);
+                    if(math.sqrdist(Mouse.Position, Mouse.Position + new Vector2(x,y)) < place_radius*place_radius) {
+                        if(sel_cel_type == null)
+                            place_cell_screen_space(null, Iround(Mouse.Position.X)+x, Iround(Mouse.Position.Y)+y);
+                        else
+                            place_cell_with_no_override_screen_space(sel_cel_type, Iround(Mouse.Position.X)+x, Iround(Mouse.Position.Y)+y);
+                    }
         }
 
         select_cell();

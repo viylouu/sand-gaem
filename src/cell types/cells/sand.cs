@@ -1,6 +1,6 @@
 using SimulationFramework;
 
-public class sand : cell {
+public class sand : solid {
     public sand() {
         col = Color.Lerp(
             Color.Peru,
@@ -14,19 +14,19 @@ public class sand : cell {
             return;
 
         if(within_y_bottom(y))
-            if(main.cells[x,y-1] == null || main.cells[x,y-1] is water) {
+            if(main.cells[x,y-1] == null || main.cells[x,y-1] is liquid) {
                 swap_with_texture_update(x,y, x,y-1);
                 return;
             }
 
         if(within_x_left(x) && within_y_bottom(y))
-            if(main.cells[x-1,y-1] == null || main.cells[x-1,y-1] is water) {
+            if(main.cells[x-1,y-1] == null || main.cells[x-1,y-1] is liquid) {
                 swap_with_texture_update(x,y, x-1,y-1);
                 return;
             }
 
         if(within_x_right(x) && within_y_bottom(y))
-            if(main.cells[x+1,y-1] == null || main.cells[x+1,y-1] is water) {
+            if(main.cells[x+1,y-1] == null || main.cells[x+1,y-1] is liquid) {
                 swap_with_texture_update(x,y, x+1,y-1);
                 return;
             }
