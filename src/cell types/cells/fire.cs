@@ -6,7 +6,8 @@ public class fire : gas {
 
     public Type[] burnables = {
         typeof(termite),
-        typeof(scaffold)
+        typeof(scaffold),
+        typeof(neon)
     };
 
     public fire() {
@@ -17,6 +18,8 @@ public class fire : gas {
         );
 
         ticks = 0;
+
+        glow = true;
     }
 
     public override void update_cell(int x, int y) {
@@ -75,8 +78,8 @@ public class fire : gas {
                                     break;
                                 }
 
-                            if(burnable)
-                                set_cell_with_texture_update(x-i,y, new fire());
+                            if(burnable) 
+                                set_cell_with_both_texture_updates(x-i,y, new fire());
                         }
 
                 if(dir == 1)
@@ -90,7 +93,7 @@ public class fire : gas {
                                 }
 
                             if(burnable)
-                                set_cell_with_texture_update(x+i,y, new fire());
+                                set_cell_with_both_texture_updates(x+i,y, new fire());
                         }
 
                 if(dir == 2)
@@ -104,7 +107,7 @@ public class fire : gas {
                                 }
 
                             if(burnable)
-                                set_cell_with_texture_update(x,y-i, new fire());
+                                set_cell_with_both_texture_updates(x,y-i, new fire());
                         }
 
                 if(dir == 3)
@@ -118,20 +121,20 @@ public class fire : gas {
                                 }
 
                             if(burnable)
-                                set_cell_with_texture_update(x,y+i, new fire());
+                                set_cell_with_both_texture_updates(x,y+i, new fire());
                         }
             }
 
         //remove after time
 
         if(ticks > main.r.Next(180,320))
-            set_cell_with_texture_update(x,y, null);
+            set_cell_with_both_texture_updates(x,y, null);
 
         //go up
 
         if(within_y_top(y))
             if(main.cells[x,y+1] == null)
-                swap_with_null_with_texture_update(x,y, x,y+1);
+                swap_with_null_with_both_texture_updates(x,y, x,y+1);
 
         //go left/right
 
@@ -141,12 +144,12 @@ public class fire : gas {
             if(dir == 0) {
                 if(within_x_right(x))
                     if(main.cells[x+1,y] == null)
-                        swap_with_null_with_texture_update(x,y, x+1,y);
+                        swap_with_null_with_both_texture_updates(x,y, x+1,y);
             }
 
             if(within_x_left(x))
                 if(main.cells[x-1,y] == null)
-                    swap_with_null_with_texture_update(x,y, x-1,y);
+                    swap_with_null_with_both_texture_updates(x,y, x-1,y);
         }
 
         //go upleft/upright
@@ -156,11 +159,11 @@ public class fire : gas {
         if(dir == 0) {
             if(within_x_left(x) && within_y_top(y))
                 if(main.cells[x-1,y+1] == null)
-                    swap_with_null_with_texture_update(x,y, x-1,y+1);
+                    swap_with_null_with_both_texture_updates(x,y, x-1,y+1);
         }
 
         if(within_x_right(x) && within_y_top(y))
             if(main.cells[x+1,y+1] == null)
-                swap_with_null_with_texture_update(x,y, x+1,y+1);
+                swap_with_null_with_both_texture_updates(x,y, x+1,y+1);
     }
 }

@@ -7,6 +7,8 @@ public class stone : solid {
             Color.DarkGray,
             (float)main.r.NextDouble()
         );
+
+        glow = false;
     }
 
     public override void update_cell(int x, int y) {

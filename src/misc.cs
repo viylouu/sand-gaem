@@ -18,6 +18,8 @@ partial class main {
 
             cells[x, y] = c;
             tex[x, y] = c.col;
+            if(c.glow)
+                btex[x, y] = c.col;
         }
     }
 
@@ -36,6 +38,8 @@ partial class main {
 
             cells[x, y] = c;
             tex[x, y] = c.col;
+            if(c.glow)
+                btex[x, y] = c.col;
         }
     }
 
@@ -77,7 +81,10 @@ partial class main {
     static void select_cell() {
         sel_cel_type = cell_types[sel_cel];
 
-        sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
+        if(sel_cel+Mouse.ScrollWheelDelta < 0)
+            sel_cel = 0;
+        else
+            sel_cel = (byte)(sel_cel + Mouse.ScrollWheelDelta);
 
         if(sel_cel > cell_types.Length-1)
             sel_cel = (byte)(cell_types.Length-1);
@@ -91,6 +98,7 @@ partial class main {
         typeof(scaffold),
         typeof(water),
         typeof(termite),
-        typeof(clearer)
+        typeof(clearer),
+        typeof(neon)
     };
 }

@@ -10,6 +10,8 @@ public class water : liquid {
         );
 
         depletes_fire = true;
+
+        glow = false;
     }
 
     public override void update_cell(int x, int y) {

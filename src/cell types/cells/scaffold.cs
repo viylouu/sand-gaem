@@ -7,6 +7,8 @@ public class scaffold : solid {
             Color.BlanchedAlmond,
             (float)main.r.NextDouble()
         );
+
+        glow = false;
     }
 
     public override void update_cell(int x, int y) {

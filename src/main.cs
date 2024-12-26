@@ -13,6 +13,7 @@ partial class main {
         Window.Title = "balls";
 
         tex = Graphics.CreateTexture(640,360);
+        btex = Graphics.CreateTexture(640,360);
 
         Simulation.SetFixedResolution(640,360,Color.Black);
     }

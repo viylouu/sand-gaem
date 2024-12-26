@@ -1,4 +1,6 @@
+using System.Collections.Specialized;
 using System.Numerics;
+using Silk.NET.OpenAL;
 using SimulationFramework;
 using SimulationFramework.Drawing;
 using SimulationFramework.Input;
@@ -7,6 +9,7 @@ using thrustr.utils;
 
 partial class main {
     public static ITexture tex;
+    public static ITexture btex;
 
     public static cell[,] cells = new cell[640,360];         // only used to check cells
     public static cell[,] cells_next = new cell[640,360];    // only used to set cells
@@ -19,19 +22,79 @@ partial class main {
     static float fps = 1f/60;
     static float timer;
 
+    static postprocess post_shader = new();
+
+    static Vector2 square_start_pos;
+    static Vector2 square_end_pos;
+
+    static bool squaring;
+
     static void rend(ICanvas c) {
         c.Clear(Color.Black);
 
+        post_shader.tex = tex;
+        post_shader.btex = btex;
+
         c.Scale(1,-1);
-        c.DrawTexture(tex, 0,0, 640,360, Alignment.BottomLeft);
+        c.Fill(post_shader);
+        c.DrawRect(0,0, 640,360, Alignment.BottomLeft);
         c.ResetState();
 
-        timer += Time.DeltaTime;
+        //timer += Time.DeltaTime;
 
         //if(timer >= fps) {
         //    timer = 0;
             update();
         //}
+
+        if(Mouse.IsButtonDown(MouseButton.Right)) {
+            if(!squaring)
+                square_start_pos = Mouse.Position;
+
+            squaring = true;
+        }
+
+        if(Mouse.IsButtonReleased(MouseButton.Right)) {
+            squaring = false;
+
+            square_end_pos = Mouse.Position;
+
+            int startx = 0;
+            int endx = 0;
+
+            int starty = 0;
+            int endy = 0;
+
+            if(square_start_pos.X > square_end_pos.X) {
+                startx = (int)square_end_pos.X;
+                endx = (int)square_start_pos.X;
+            } else {
+                endx = (int)square_end_pos.X;
+                startx = (int)square_start_pos.X;
+            }
+ 
+            if(square_start_pos.Y > square_end_pos.Y) {
+                starty = (int)square_end_pos.Y;
+                endy = (int)square_start_pos.Y;
+            } else {
+                endy = (int)square_end_pos.Y;
+                starty = (int)square_start_pos.Y;
+            }
+
+            for(int x = startx; x < endx; x++)
+                for(int y = starty; y < endy; y++) {
+                    if(sel_cel_type == null)
+                        place_cell_screen_space(null, x,y);
+                    else
+                        place_cell_with_no_override_screen_space(sel_cel_type, x,y);
+                }
+        }
+
+        if(squaring) {
+            c.Stroke(Color.Green);
+            c.DrawRect(square_start_pos,Mouse.Position-square_start_pos,Alignment.TopLeft);
+            c.ResetState();
+        }
 
         if(Mouse.IsButtonDown(MouseButton.Left)) {
             for(int x = -place_radius; x <= place_radius; x++)
@@ -62,5 +125,6 @@ partial class main {
         cells = cells_next;
         
         tex.ApplyChanges();
+        btex.ApplyChanges();
     }
 }

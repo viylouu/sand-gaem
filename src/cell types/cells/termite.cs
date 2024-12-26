@@ -20,6 +20,8 @@ public class termite : solid {
 
         living = true;
         wet = false;
+
+        glow = false;
     }
 
     public override void update_cell(int x, int y) {
@@ -222,4 +224,4 @@ public class termite : solid {
         col = Color.Lerp(col, Color.Blue, (float)main.r.NextDouble()*.25f+.25f);
         main.tex[x,y] = col;
     }
-} 
+}
