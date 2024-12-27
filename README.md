@@ -12,7 +12,7 @@ a simple sand simulation written in c#
 3. ensure you have dotnet installed (im not sure what version, but if you have issues, update it)
 3. add the needed packages
     - listed in dependencies
-    - add the packages using the command "dotnet add package <name> <version>"
+    - add the packages using the command "dotnet add package {name} {version}"
 4. press F5 or type dotnet run and it should work
 
 ## controls
