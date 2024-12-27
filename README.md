@@ -9,7 +9,7 @@ a simple sand simulation written in c#
 ## installation
 1. clone the repository from "https://github.com/viylouu/sand-gaem/tree/main"
 2. open the project using vscode
-3. ensure you have dotnet installed
+3. ensure you have dotnet installed (im not sure what version, but if you have issues, update it)
 3. add the needed packages
     - listed in dependencies
     - add the packages using the command "dotnet add package <name> <version>"
