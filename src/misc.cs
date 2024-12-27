@@ -9,10 +9,13 @@ partial class main {
     static void place_cell(Type cell_type, int x, int y) {
         if (x < 0 || x >= cells.GetLength(0) || y < 0 || y >= cells.GetLength(1))
             return;
+
+        cell.update_around(x,y);
         
         if(cell_type == null) {
             cells[x,y] = null;
             tex[x,y] = Color.Transparent;
+            btex[x, y] = Color.Transparent;
         } else {
             cell c = (cell)Activator.CreateInstance(cell_type);
 
@@ -20,6 +23,8 @@ partial class main {
             tex[x, y] = c.col;
             if(c.glow)
                 btex[x, y] = c.col;
+            else
+                btex[x, y] = Color.Transparent;
         }
     }
 
@@ -30,9 +35,12 @@ partial class main {
         if(cells[x,y] != null)
             return;
 
+        cell.update_around(x,y);
+
         if(cell_type == null) {
             cells[x,y] = null;
             tex[x,y] = Color.Transparent;
+            btex[x, y] = Color.Transparent;
         } else {
             cell c = (cell)Activator.CreateInstance(cell_type);
 
@@ -40,6 +48,8 @@ partial class main {
             tex[x, y] = c.col;
             if(c.glow)
                 btex[x, y] = c.col;
+            else
+                btex[x, y] = Color.Transparent;
         }
     }
 
@@ -69,11 +79,13 @@ partial class main {
         if (x < 0 || x >= cells.GetLength(0) || y < 0 || y >= cells.GetLength(1))
             return;
         
+        cell.update_around(x,y);
+
         if(c == null) {
-            cells_next[x,y] = null;
+            cells[x,y] = null;
             tex[x,y] = Color.Transparent;
         } else {
-            cells_next[x, y] = c;
+            cells[x, y] = c;
             tex[x, y] = c.col;
         }
     }

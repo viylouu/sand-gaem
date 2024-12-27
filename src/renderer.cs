@@ -11,15 +11,15 @@ partial class main {
     public static ITexture tex;
     public static ITexture btex;
 
-    public static cell[,] cells = new cell[640,360];         // only used to check cells
-    public static cell[,] cells_next = new cell[640,360];    // only used to set cells
+    public static cell[,] cells = new cell[640,360];
+    public static bool[,] updateds;
 
     static Type sel_cel_type = typeof(sand);
     static byte sel_cel = 1;
 
     static int place_radius = 4;
 
-    static float fps = 1f/60;
+    static float fps = 1f/15;
     static float timer;
 
     static postprocess post_shader = new();
@@ -29,23 +29,44 @@ partial class main {
 
     static bool squaring;
 
+    static bool post_processing = true;
+    static bool fixed_updating = false;
+
     static void rend(ICanvas c) {
         c.Clear(Color.Black);
 
         post_shader.tex = tex;
         post_shader.btex = btex;
 
+        DateTime curtime = DateTime.UtcNow;
+
         c.Scale(1,-1);
-        c.Fill(post_shader);
-        c.DrawRect(0,0, 640,360, Alignment.BottomLeft);
+        if(post_processing) {
+            c.Fill(post_shader);
+            c.DrawRect(0,0, 640,360, Alignment.BottomLeft);
+        } else
+            c.DrawTexture(tex,0,0,640,360,Alignment.BottomLeft);
         c.ResetState();
 
-        //timer += Time.DeltaTime;
+        c.Flush();
 
-        //if(timer >= fps) {
-        //    timer = 0;
+        Console.Clear();
+
+        Console.WriteLine($"render speed: {(DateTime.UtcNow-curtime).TotalMilliseconds} milliseconds");
+
+        curtime = DateTime.UtcNow;
+
+        if(fixed_updating) {
+            timer += Time.DeltaTime;
+
+            if(timer >= fps) {
+                timer = 0;
+                update();
+            }
+        } else
             update();
-        //}
+
+        Console.WriteLine($"update speed: {(DateTime.UtcNow-curtime).TotalMilliseconds} milliseconds");
 
         if(Mouse.IsButtonDown(MouseButton.Right)) {
             if(!squaring)
@@ -115,14 +136,12 @@ partial class main {
     }
 
     static void update() {
-        cells_next = cells;
+        updateds = new bool[cells.GetLength(0),cells.GetLength(1)];
 
         for(int x = 0; x < cells.GetLength(0); x++)
             for(int y = 0; y < cells.GetLength(1); y++)
-                if(cells[x,y] != null)
+                if(cells[x,y] != null && !updateds[x,y])
                     cells[x,y].update_cell(x,y);
-
-        cells = cells_next;
         
         tex.ApplyChanges();
         btex.ApplyChanges();

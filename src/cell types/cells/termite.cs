@@ -5,8 +5,6 @@ using thrustr.utils;
 public class termite : solid {
     public bool living;
 
-    public bool wet;
-
     public static Type[] eatables = {
         typeof(scaffold)
     };
@@ -19,79 +17,84 @@ public class termite : solid {
         );
 
         living = true;
-        wet = false;
 
         glow = false;
+        update = true;
     }
 
     public override void update_cell(int x, int y) {
+        if(!update && !living)
+            return;
+
         if(main.r.Next(0,10) == 0)
             return;
 
         if(living) {
-            if(main.r.Next(0,60) == 0) {
-                int dir = 0;
+            if(update) {
+                if(main.r.Next(0,60) == 0) {
+                    int dir = 0;
 
-                for(int i = 1; i <= main.r.Next(1,5); i++)
-                    if(main.r.Next(0,i*i+1) == 0) {
-                        dir = main.r.Next(0,4);
+                    for(int i = 1; i <= main.r.Next(1,5); i++)
+                        if(main.r.Next(0,i*i+1) == 0) {
+                            dir = main.r.Next(0,4);
 
-                        if(dir == 0)
-                            if(within_x_left(x,i))
-                                if(main.cells[x-i,y] != null) {
-                                    bool eatable = false;
-                                    for(int j = 0; j < eatables.Length; j++)
-                                        if(main.cells[x-i,y].GetType() == eatables[j]) {
-                                            eatable = true;
-                                            break;
-                                        }
+                            if(dir == 0)
+                                if(within_x_left(x,i))
+                                    if(main.cells[x-i,y] != null) {
+                                        bool eatable = false;
+                                        for(int j = 0; j < eatables.Length; j++)
+                                            if(main.cells[x-i,y].GetType() == eatables[j]) {
+                                                eatable = true;
+                                                break;
+                                            }
 
-                                    if(eatable)
-                                        set_cell_with_texture_update(x-i,y, null);
-                                }
+                                        if(eatable)
+                                            set_cell_with_texture_update(x-i,y, null);
+                                    }
 
-                        if(dir == 1)
-                            if(within_x_right(x,i))
-                                if(main.cells[x+i,y] != null) {
-                                    bool eatable = false;
-                                    for(int j = 0; j < eatables.Length; j++)
-                                        if(main.cells[x+i,y].GetType() == eatables[j]) {
-                                            eatable = true;
-                                            break;
-                                        }
+                            if(dir == 1)
+                                if(within_x_right(x,i))
+                                    if(main.cells[x+i,y] != null) {
+                                        bool eatable = false;
+                                        for(int j = 0; j < eatables.Length; j++)
+                                            if(main.cells[x+i,y].GetType() == eatables[j]) {
+                                                eatable = true;
+                                                break;
+                                            }
 
-                                    if(eatable)
-                                        set_cell_with_texture_update(x+i,y, null);
-                                }
+                                        if(eatable)
+                                            set_cell_with_texture_update(x+i,y, null);
+                                    }
 
-                        if(dir == 2)
-                            if(within_y_bottom(y,i))
-                                if(main.cells[x,y-i] != null) {
-                                    bool eatable = false;
-                                    for(int j = 0; j < eatables.Length; j++)
-                                        if(main.cells[x,y-i].GetType() == eatables[j]) {
-                                            eatable = true;
-                                            break;
-                                        }
+                            if(dir == 2)
+                                if(within_y_bottom(y,i))
+                                    if(main.cells[x,y-i] != null) {
+                                        bool eatable = false;
+                                        for(int j = 0; j < eatables.Length; j++)
+                                            if(main.cells[x,y-i].GetType() == eatables[j]) {
+                                                eatable = true;
+                                                break;
+                                            }
 
-                                    if(eatable)
-                                        set_cell_with_texture_update(x,y-i, null);
-                                }
+                                        if(eatable)
+                                            set_cell_with_texture_update(x,y-i, null);
+                                    }
 
-                        if(dir == 3)
-                            if(within_y_top(y,i))
-                                if(main.cells[x,y+i] != null) {
-                                    bool eatable = false;
-                                    for(int j = 0; j < eatables.Length; j++)
-                                        if(main.cells[x,y+i].GetType() == eatables[j]) {
-                                            eatable = true;
-                                            break;
-                                        }
+                            if(dir == 3)
+                                if(within_y_top(y,i))
+                                    if(main.cells[x,y+i] != null) {
+                                        bool eatable = false;
+                                        for(int j = 0; j < eatables.Length; j++)
+                                            if(main.cells[x,y+i].GetType() == eatables[j]) {
+                                                eatable = true;
+                                                break;
+                                            }
 
-                                    if(eatable)
-                                        set_cell_with_texture_update(x,y+i, null);
-                                }
-                    }
+                                        if(eatable)
+                                            set_cell_with_texture_update(x,y+i, null);
+                                    }
+                        }
+                }
             }
 
             if(within_x_left(x)) {
@@ -102,7 +105,7 @@ public class termite : solid {
                     return;
 
                 if(main.cells[x-1,y] is termite)
-                    if((main.cells[x-1,y] as termite).wet)
+                    if(!(main.cells[x-1,y] as termite).living)
                         stop_living(x,y);
 
                 if(!living)
@@ -117,7 +120,7 @@ public class termite : solid {
                     return;
 
                 if(main.cells[x+1,y] is termite)
-                    if((main.cells[x+1,y] as termite).wet)
+                    if(!(main.cells[x+1,y] as termite).living)
                         stop_living(x,y);
 
                 if(!living)
@@ -132,7 +135,7 @@ public class termite : solid {
                     return;
 
                 if(main.cells[x,y-1] is termite)
-                    if((main.cells[x,y-1] as termite).wet)
+                    if(!(main.cells[x,y-1] as termite).living)
                         stop_living(x,y);
 
                 if(!living)
@@ -147,12 +150,15 @@ public class termite : solid {
                     return;
 
                 if(main.cells[x,y+1] is termite)
-                    if((main.cells[x,y+1] as termite).wet)
+                    if(!(main.cells[x,y+1] as termite).living)
                         stop_living(x,y);
 
                 if(!living)
                     return;
             }
+
+            if(!update)
+                return;
         }
 
         if(within_y_bottom(y))
@@ -216,11 +222,15 @@ public class termite : solid {
                     break;
             }
         }
+
+        ticks_since_last_updated++;
+
+        if(ticks_since_last_updated >= max_ticks_without_update)
+            update = false;
     }
 
     void stop_living(int x, int y) {
         living = false;
-        wet = true;
         col = Color.Lerp(col, Color.Blue, (float)main.r.NextDouble()*.25f+.25f);
         main.tex[x,y] = col;
     }

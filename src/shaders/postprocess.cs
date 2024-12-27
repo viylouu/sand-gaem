@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.Intrinsics;
 using SimulationFramework;
 using SimulationFramework.Drawing;
 using SimulationFramework.Drawing.Shaders;
@@ -18,7 +19,7 @@ partial class postprocess : CanvasShader {
     public override ColorF GetPixelColor(Vector2 pos) {
         Vector4 blur = new();
 
-        int rad = 16, trad = 0;
+        int rad = 24, trad = 0;
 
         for(int i = -rad; i <= rad; i++)
             trad++;
@@ -31,7 +32,11 @@ partial class postprocess : CanvasShader {
 
         blur /= trad*trad;
 
-        blur *= 2.25f;
+        float mult = 2.25f;
+        blur *= new Vector4(mult,mult,mult,1);
+
+        float add = .25f*blur.Z;
+        blur += new Vector4(add,add,add,0);
 
         return ColorF.Lerp(tex.Sample(pos), new ColorF(blur.X,blur.Y,blur.Z,1), Clamp(blur.W,0,1));
     }

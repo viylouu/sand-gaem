@@ -10,11 +10,15 @@ public class water : liquid {
         );
 
         depletes_fire = true;
-
         glow = false;
+
+        update = true;
     }
 
     public override void update_cell(int x, int y) {
+        if(!update)
+            return;
+
         if(main.r.Next(0, 10) == 0)
             return;
 
@@ -51,5 +55,10 @@ public class water : liquid {
                 swap_with_null_with_texture_update(x,y, x+1,y);
                 return;
             }
+
+        ticks_since_last_updated++;
+
+        if(ticks_since_last_updated >= max_ticks_without_update)
+            update = false;
     }
 }

@@ -9,9 +9,13 @@ public class sand : solid {
         );
 
         glow = false;
+        update = true;
     }
 
     public override void update_cell(int x, int y) {
+        if(!update)
+            return;
+
         if(main.r.Next(0, 10) == 0)
             return;
 
@@ -32,5 +36,10 @@ public class sand : solid {
                 swap_with_texture_update(x,y, x+1,y-1);
                 return;
             }
+
+        ticks_since_last_updated++;
+
+        if(ticks_since_last_updated >= max_ticks_without_update)
+            update = false;
     }
 }

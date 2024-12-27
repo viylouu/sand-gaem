@@ -20,10 +20,19 @@ public class fire : gas {
         ticks = 0;
 
         glow = true;
+        update = true;
     }
 
     public override void update_cell(int x, int y) {
         ticks++;
+
+        //remove after time
+
+        if(ticks > main.r.Next(180,320))
+            set_cell_with_both_texture_updates(x,y, null);
+
+        if(!update)
+            return;
 
         if(within_x_left(x))
             if(main.cells[x-1,y] != null)
@@ -125,11 +134,6 @@ public class fire : gas {
                         }
             }
 
-        //remove after time
-
-        if(ticks > main.r.Next(180,320))
-            set_cell_with_both_texture_updates(x,y, null);
-
         //go up
 
         if(within_y_top(y))
@@ -165,5 +169,10 @@ public class fire : gas {
         if(within_x_right(x) && within_y_top(y))
             if(main.cells[x+1,y+1] == null)
                 swap_with_null_with_both_texture_updates(x,y, x+1,y+1);
+
+        ticks_since_last_updated++;
+
+        if(ticks_since_last_updated >= max_ticks_without_update)
+            update = false;
     }
 }
