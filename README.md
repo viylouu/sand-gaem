@@ -1,4 +1,4 @@
-# sand game
+# sand gaem
 ### a simple sand simulation written in c#
 
 ## dependencies
