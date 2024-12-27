@@ -38,8 +38,6 @@ partial class main {
         post_shader.tex = tex;
         post_shader.btex = btex;
 
-        DateTime curtime = DateTime.UtcNow;
-
         c.Scale(1,-1);
         if(post_processing) {
             c.Fill(post_shader);
@@ -47,14 +45,6 @@ partial class main {
         } else
             c.DrawTexture(tex,0,0,640,360,Alignment.BottomLeft);
         c.ResetState();
-
-        c.Flush();
-
-        Console.Clear();
-
-        Console.WriteLine($"render speed: {(DateTime.UtcNow-curtime).TotalMilliseconds} milliseconds");
-
-        curtime = DateTime.UtcNow;
 
         if(fixed_updating) {
             timer += Time.DeltaTime;
@@ -65,8 +55,6 @@ partial class main {
             }
         } else
             update();
-
-        Console.WriteLine($"update speed: {(DateTime.UtcNow-curtime).TotalMilliseconds} milliseconds");
 
         if(Mouse.IsButtonDown(MouseButton.Right)) {
             if(!squaring)
