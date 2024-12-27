@@ -21,5 +21,5 @@ a simple sand simulation written in c#
 - scroll to change the current cell
 
 ## contributing
-contributions are welcome
+contributions are welcome!
 if you would like to contribute, fork the repo and submit a pull request
